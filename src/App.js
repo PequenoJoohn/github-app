@@ -7,6 +7,8 @@ function App() {
 
   const [userInfo, setUserInfo] = useState({
     username: "Dimitri",
+    photo: "https://avatars2.githubusercontent.com/u/25863252?v=4",
+    login: 'pequenojoohn',
     repos: 12,
     followers: 10,
     following: 10
