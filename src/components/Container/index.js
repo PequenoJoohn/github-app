@@ -1,29 +1,32 @@
+import PropTypes from 'prop-types';
+
 import Actions from '../Actions';
 import Repos from '../Repos';
 import Search from '../Search';
 import User from '../User';
 
-const Container = () => (
+const Container = ({ userinfo, repos, starred }) => (
     <div className="app">
         <Search />
-        <User />
-        <Actions />
+        {!!userinfo && <User userinfo={userinfo} />}
+        {!!userinfo && <Actions />}
 
-        <Repos
+        {!!repos.length && <Repos
             className="repos"
             title="Repositórios:"
-            repos={[{
-                name: "Nome do repositório", link: "#"
-            }]} />
+            repos={repos} />}
 
-        <Repos
+        {!!starred.length && <Repos
             className="starred"
             title="Favoritos:"
-            repos={[{
-                name: "Nome do repositório", link: "#"
-            }]} />
-
+            repos={starred} />}
     </div>
 )
+
+Container.propTypes = {
+    userinfo: PropTypes.object,
+    repos: PropTypes.array.isRequired,
+    starred: PropTypes.array.isRequired
+}
 
 export default Container;
