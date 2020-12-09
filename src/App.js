@@ -9,12 +9,18 @@ function App() {
   const [repos, setRepos] = useState([]);
   const [starred, setStarred] = useState([]);
 
+  function getGitHubApiUrl (username, type) {
+    const internalUser = username ? `/${username}` : '';
+    const internalType = type ? `/${type}` : '';
+    return `https://api.github.com/users${internalUser}${internalType}`
+  }
+
   function handleSearch(e) {
-    const { value } = e.target
+    const { value } = e.target;
     const keyCode = e.key
     const ENTER = "Enter"
     if (keyCode === ENTER) {
-      fetch(`https://api.github.com/users/${value}`, { method: "GET" })
+      fetch(getGitHubApiUrl(value), { method: "GET" })
         .then(response => response.json())
         .then((data) => {
           setUserInfo({
@@ -25,6 +31,8 @@ function App() {
             followers: data.followers,
             following: data.following
           })
+          setStarred([]);
+          setRepos([]);
         })
         .catch(error => console.log(error));
     }
@@ -32,14 +40,17 @@ function App() {
 
   function getRepos(type) {
     return (e) => {
-      fetch(`https://api.github.com/users/${userInfo.login}/${type}`, { method: "GET" })
+      fetch(getGitHubApiUrl(userInfo.login, type), { method: "GET" })
         .then(response => response.json())
         .then((data) => {
-          // if(type) {
-          //   return setRepos(data)
-          // }
-          // setStarred(data)
-          console.log(data);
+          const types = data.map((repo) => {
+            return {
+              name: repo.name,
+              link: repo.html_url
+            }
+          })
+          if (type === "repos") setRepos(types);
+          if (type === "starred") setStarred(types);
         })
     }
   }
