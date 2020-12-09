@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 const Actions = ({ getRepos, getStarred }) => {
     return (
         <div className="actions">
@@ -6,6 +8,11 @@ const Actions = ({ getRepos, getStarred }) => {
         </div>
 
     )
+}
+
+Actions.propTypes = {
+    getRepos: PropTypes.func.isRequired,
+    getStarred: PropTypes.func.isRequired
 }
 
 export default Actions;
