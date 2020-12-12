@@ -7,7 +7,10 @@ import User from '../User';
 
 const Container = ({ userinfo, repos, starred, isFetching, handleSearch, getRepos, getStarred }) => (
     <div className="app">
-        <Search isDisabled={isFetching} handleSearch={handleSearch} />
+        <nav>
+            <h1>Github</h1>
+            <Search isDisabled={isFetching} handleSearch={handleSearch} />
+        </nav>
         {isFetching && <div>Carregando...</div>}
         {!!userinfo && <User userinfo={userinfo} />}
         {!!userinfo && <Actions getRepos={getRepos} getStarred={getStarred} />}
